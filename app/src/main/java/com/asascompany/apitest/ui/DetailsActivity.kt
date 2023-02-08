@@ -1,6 +1,7 @@
 package com.asascompany.apitest.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 
 import coil.load
 import com.asascompany.apitest.databinding.ActivityDetailsBinding
@@ -16,8 +17,23 @@ class DetailsActivity() : AppCompatActivity() {
         viewModel.getByName(id)
         viewModel.item.observe(this) {
             binding.apply {
-                ivName.text = it.name
-                ivCata.text = it.category
+                if (it.weight == 0.0) {
+                    //show a progress bar if the list is empty
+                    pbPosts2.visibility = View.VISIBLE
+                    ivName.visibility = View.GONE
+                    ivCata.visibility = View.GONE
+                    tvAtk.visibility = View.GONE
+                    tvDef.visibility = View.GONE
+                } else {
+                    //otherwise hide the progress bar
+                    pbPosts2.visibility = View.GONE
+                    ivName.visibility = View.VISIBLE
+                    ivCata.visibility = View.VISIBLE
+                    tvAtk.visibility = View.VISIBLE
+                    tvDef.visibility = View.VISIBLE
+                }
+                ivName.text = "Name:${it.name}"
+                ivCata.text = "type:${ it.category }"
                 ivPic.load(it.image)
                 tvWeight.text = it.weight.toString()
                 tvAtk.text = it.attack.toString()
